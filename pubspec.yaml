@@ -1,0 +1,21 @@
+name: code_style_tours
+description: Tours to practice Code Style guides.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: 2.15.1
+  flutter: 2.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  lint: 1.8.1
+
+flutter:
+  uses-material-design: true
