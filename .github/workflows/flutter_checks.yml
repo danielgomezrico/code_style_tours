@@ -1,0 +1,35 @@
+name: Code Style, Lint and Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+# Cancel jobs and just run the last one
+concurrency:
+  group: ${{ github.head_ref }}-flutter
+  cancel-in-progress: true
+
+jobs:
+  danger:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '2.8.1'
+        channel: 'stable'
+        cache: true
+        cache-key: flutter # optional, change this to force refresh cache
+        cache-path: ${{ runner.tool_cache }}/flutter # optional, change this to specify the cache path
+
+    - name: Fetch dependencies
+      run: flutter pub get --suppress-analytics
+
+    - name: Check Lint
+      run: flutter analyze --no-pub --no-fatal-infos --no-fatal-warnings
+
+    - name: Check CodeStyle Format
+      run: flutter format --set-exit-if-changed -n lib/main.dart lib/src/ test/
+
+    - name: Check Unit Tests
+      run: flutter test --no-pub
